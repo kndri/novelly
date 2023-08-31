@@ -1,20 +1,27 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import { StatusBar } from "expo-status-bar";
+import { useFonts } from 'expo-font';
+
+import Navigation from "./src/navigation";
+import { AuthProvider } from "./src/provider/AuthProvider";
 
 export default function App() {
+  const [fontsLoaded, fontError] = useFonts({
+    InterRegular: require('./assets/fonts/Inter-Regular.ttf'),
+    InterMedium: require('./assets/fonts/Inter-Medium.ttf'),
+    InterBold: require('./assets/fonts/Inter-Bold.ttf'),
+    TrapBold: require('./assets/fonts/Trap-Bold.otf'),
+  });
+
+  if (!fontsLoaded && !!fontError) {
+    return null;
+  }
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <>
+      <AuthProvider>
+        <Navigation />
+      </AuthProvider>
+      <StatusBar />
+    </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
